@@ -1,0 +1,21 @@
+#/bin/bash
+echo "Script name= $0"
+
+echo "Script to monitor disk"
+
+TO="hrushipthube10@gmai.com"
+DISKUSAGE=$(df -h|egrep -v "Filesystem|tmpfs"|grep "xvda1"|head -n 1|awk '{print $5}'|tr -d %)
+THRESHOLD=30
+if [[ $DISKUSAGE -gt $THRESHOLD ]]
+then
+	echo "!!ALERT!! LOW DISK SPACE- Current disk Usage = $DISKUSAGE <$THRESHOLD"|mail -s "ALERT |DISK SPACE USAGE" $TO
+else
+	echo "No issues , Current  DISK USAGE= $DISKUSAGE < $THRESHOLD "
+fi
+<<comment
+OUTOUT:
+Script name= 31_disk_monitor
+Script to monitor disk
+!!ALERT!! LOW DISK SPACE- Current disk Usage = 40 <30
+comment
+
